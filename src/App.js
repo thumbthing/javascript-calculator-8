@@ -28,10 +28,26 @@ class App {
     return SEPARATOR_REGEXP;
   }
 
+  getNumbers(userInput, separatorRegexp) {
+    const SEPARATOR_LAST_INDEX = userInput.lastIndexOf('\\n');
+    let sliceIndex = 0;
+
+    if (SEPARATOR_LAST_INDEX !== -1) {
+      sliceIndex = SEPARATOR_LAST_INDEX + 2;
+    }
+
+    const STRING_NUMBERS = userInput.slice(sliceIndex);
+    const NUMBER_LIST = STRING_NUMBERS.split(separatorRegexp);
+    const NUMBERS = NUMBER_LIST.map((num) => Number(num));
+    
+    return NUMBERS
+  }
+
   async run() {
     const USER_INPUT = await this.userInput();
     const SEPARATOR_REGEXP = this.getPattern(USER_INPUT);
-    console.log(SEPARATOR);
+    const NUMBERS = this.getNumbers(USER_INPUT, SEPARATOR_REGEXP);
+    console.log(NUMBERS)
   }
 }
 
