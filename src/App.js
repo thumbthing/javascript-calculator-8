@@ -28,6 +28,7 @@ class App {
     return SEPARATOR_REGEXP;
   }
 
+  // 계산할 숫자 반환
   getNumbers(userInput, separatorRegexp) {
     const SEPARATOR_LAST_INDEX = userInput.lastIndexOf('\\n');
     let sliceIndex = 0;
@@ -43,11 +44,34 @@ class App {
     return NUMBERS
   }
 
+  // 유효성 검사
+  checkInput(numbers) {
+    numbers.forEach((num) => {
+      // 숫자가 아닐 경우
+      const IS_NOT_NUMBER = Number.isNaN(num);
+
+      // 음수일 경우
+      const IS_NEGATIVE = num < 0;
+
+      // 소수일 경우
+      const IS_DICIMAL = (Math.floor(num) !== num || Math.ceil(num) !== num);
+
+      if (IS_NOT_NUMBER || IS_NEGATIVE || IS_DICIMAL) {
+        throw new Error('[ERROR]');
+      }
+    });
+  }
+
   async run() {
-    const USER_INPUT = await this.userInput();
-    const SEPARATOR_REGEXP = this.getPattern(USER_INPUT);
-    const NUMBERS = this.getNumbers(USER_INPUT, SEPARATOR_REGEXP);
-    console.log(NUMBERS)
+    try {
+      const USER_INPUT = await this.userInput();
+      const SEPARATOR_REGEXP = this.getPattern(USER_INPUT);
+      const NUMBERS = this.getNumbers(USER_INPUT, SEPARATOR_REGEXP);
+      this.checkInput(NUMBERS);
+
+    } catch (error) {
+      throw error;
+    }
   }
 }
 
