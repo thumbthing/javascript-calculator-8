@@ -62,13 +62,20 @@ class App {
     });
   }
 
+  // 검증 완료된 입력값을 전부 계산
+  addNumber(numbers) {
+    const RESULT = numbers.reduce((acc, cur) => acc + cur, 0);
+
+    return RESULT;
+  }
+
   async run() {
     try {
       const USER_INPUT = await this.userInput();
       const SEPARATOR_REGEXP = this.getPattern(USER_INPUT);
       const NUMBERS = this.getNumbers(USER_INPUT, SEPARATOR_REGEXP);
       this.checkInput(NUMBERS);
-
+      const RESULT = this.addNumber(NUMBERS);
     } catch (error) {
       throw error;
     }
