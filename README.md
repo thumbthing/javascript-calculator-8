@@ -2,6 +2,16 @@
 
 ---
 
+## 문서 목록
+
+- [npm 설치 에러](./markdown/error/01_npm_install_error.md)
+- [Git Commit Convention](./markdown/study/01_AngularJS_Git_Commit_Message_Conventions.md)
+- [JavsScript Style Guide](./markdown/study/02_JavaScript_Style_Guide.md)
+- [기능 목록](./markdown/feature/featureList.md)
+- [정규식 생성 이슈](./markdown/issue/01_RegExp_custom_create.md)
+
+---
+
 ## 작업 순서
 
 1. 미션 저장소에서 fork
@@ -11,6 +21,7 @@
 4. commit 규칙 학습-정리
     - [AngularJS Git Commit Conventions](./markdown/study/01_AngularJS_Git_Commit_Message_Conventions.md)
 5. coding 컨벤션 학습-정리
+    - [JavaScript Style Guide](./markdown/study/02_JavaScript_Style_Guide.md)
     - 전부 숙지하기에는 시간이 부족할 것이라 판단하여, 미션을 구현하면서 필요한 부분을 읽어가면서 추가적인 학습-정리하여 제출 전까지 지속적으로 최신화하는 방식으로 진행하기로 결정
 6. 기능 목록 문서 작성
     1. 전체적인 기능의 흐름 작성
