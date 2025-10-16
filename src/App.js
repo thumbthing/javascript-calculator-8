@@ -14,7 +14,7 @@ class App {
 
     if (userInput.startsWith('//')) {
       const START_INDEX = 2;
-      const END_POSITION = userInput.lastIndexOf('\n');
+      const END_POSITION = userInput.lastIndexOf('\\n');
       const END_INDEX = END_POSITION === -1 ? undefined : END_POSITION;
 
       const CUSTOM_SEPARATOR = userInput.slice(START_INDEX, END_INDEX);
