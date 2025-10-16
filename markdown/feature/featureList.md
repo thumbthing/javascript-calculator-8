@@ -2,6 +2,17 @@
 
 ---
 
+## 기능 목록
+
+- [입력: async userInput()](#입력)
+- [구분자: getPattern()](#구분자)
+- [분리-변환: getNumbers()](#분리-변환)
+- [유효성 검사: checkInput()](#유효성-검사)
+- [계산: addNumber()](#계산)
+- [출력: printResult()](#출력)
+
+---
+
 ## 전체적인 기능 흐름
 
 1. 사용자에게 안내 문구가 출력된다.
@@ -36,10 +47,26 @@
 1. 사용자에게 안내 문구를 화면에 출력한다.
 2. 사용자에게 입력받은 문자를 반환한다.
 
+```javascript
+  // 입력 기능
+  async userInput() {
+    const INPUT = await Console.readLineAsync('덧셈할 문자열을 입력해 주세요.\n');
+    return INPUT;
+  } 
+```
+
 ### 출력
 
 1. 생성된 결과로 출력할 문자열을 생성한다.
 2. 생성된 문자열을 화면에 출력한다.
+
+```javascript
+  // 결과 출력
+  printResult(result) {
+    const RESULT_STRING = `결과 : ${result}`;
+    Console.print(RESULT_STRING);
+  }
+```
 
 ---
 
@@ -53,6 +80,28 @@
     4. 기본 구분자 배열에 최종 변환된 커스텀 구분자를 추가한다.
 3. 최종적으로 정의된 구분자 배열로 정규식을 생성한다.
 4. 생성된 정규식을 반환한다.
+
+```javascript
+  // 구분자 정의
+  getPattern(userInput) {
+    const SEPARATOR_LIST = [':', ','];
+
+    if (userInput.startsWith('//')) {
+      const START_INDEX = 2;
+      const END_POSITION = userInput.lastIndexOf('\\n');
+      const END_INDEX = END_POSITION === -1 ? undefined : END_POSITION;
+
+      const CUSTOM_SEPARATOR = userInput.slice(START_INDEX, END_INDEX);
+      const ESCAPED_SEPARATOR = [...CUSTOM_SEPARATOR].map((char) => char.replace(/[.*+?^${}()|[\]\\]/g, '\\$&'));
+
+      SEPARATOR_LIST.push(ESCAPED_SEPARATOR.join(''));
+    }
+
+    const SEPARATOR_REGEXP = new RegExp(`(?:${SEPARATOR_LIST.join('|')})`)
+  
+    return SEPARATOR_REGEXP;
+  }
+```
 
 ---
 
@@ -68,6 +117,25 @@
 3. 분리된 입력값들을 숫자로 변환한다.
 4. 변환된 입력값을 반환한다.
 
+```javascript
+
+  // 계산할 숫자 반환
+  getNumbers(userInput, separatorRegexp) {
+    const SEPARATOR_LAST_INDEX = userInput.lastIndexOf('\\n');
+    let sliceIndex = 0;
+
+    if (SEPARATOR_LAST_INDEX !== -1) {
+      sliceIndex = SEPARATOR_LAST_INDEX + 2;
+    }
+
+    const STRING_NUMBERS = userInput.slice(sliceIndex);
+    const NUMBER_LIST = STRING_NUMBERS.split(separatorRegexp);
+    const NUMBERS = NUMBER_LIST.map((num) => Number(num));
+    
+    return NUMBERS
+  }
+```
+
 ---
 
 ### 유효성 검사
@@ -79,10 +147,36 @@
     3. 소수인 경우
 3. 검사된 3가지 경우 중에 하나라도 해당하는 경우 error를 생성해서 던진다.
 
+```javascript
+  // 유효성 검사
+  checkInput(numbers) {
+    numbers.forEach((num) => {
+      // 숫자가 아닐 경우
+      const IS_NOT_NUMBER = Number.isNaN(num);
+
+      // 음수일 경우
+      const IS_NEGATIVE = num < 0;
+
+      // 소수일 경우
+      const IS_DICIMAL = (Math.floor(num) !== num || Math.ceil(num) !== num);
+
+      if (IS_NOT_NUMBER || IS_NEGATIVE || IS_DICIMAL) {
+        throw new Error('[ERROR]');
+      }
+    });
+  }
+```
+
 ## 계산
 
 1. 검증이 완료된 입력값들을 전부 더한다.
 2. 더해진 결과값을 반환한다.
 
----
+```javascript
+  // 검증 완료된 입력값을 전부 계산
+  addNumber(numbers) {
+    const RESULT = numbers.reduce((acc, cur) => acc + cur, 0);
 
+    return RESULT;
+  }
+```
