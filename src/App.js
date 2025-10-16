@@ -69,6 +69,12 @@ class App {
     return RESULT;
   }
 
+  // 결과 출력
+  printResult(result) {
+    const RESULT_STRING = `결과 : ${result}`;
+    Console.print(RESULT_STRING);
+  }
+
   async run() {
     try {
       const USER_INPUT = await this.userInput();
@@ -76,6 +82,7 @@ class App {
       const NUMBERS = this.getNumbers(USER_INPUT, SEPARATOR_REGEXP);
       this.checkInput(NUMBERS);
       const RESULT = this.addNumber(NUMBERS);
+      this.printResult(RESULT);
     } catch (error) {
       throw error;
     }
